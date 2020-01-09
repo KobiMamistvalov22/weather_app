@@ -4,28 +4,27 @@ import WeatherComp from '../components/WeatherComponent';
 import SearchBar from '../components/SearchBar';
 
 const API_KEY = '2f7af1a5465bd62281a469e954c520d5';
-const reqWeather = `http://api.openweathermap.org/data/2.5/weather?q=Ashdod&appid=${API_KEY}`
+
 
 const ShowWeather = () => {
 
-  const [city, setcityState] = useState('')
+  const [city, setCityState] = useState('')
   const [temp, setTempState] = useState('')
   const [minTemp, setMinState] = useState('')
   const [maxTemp, setMaxState] = useState('')
 
-  const calCelcius = (num) => {
-    let cell = Math.floor(num - 273.15);
-    return cell;
-  }
+  const [term, setTerm] = useState('')
+
 
   const getWeather = async () => {
+    let reqWeather = `http://api.openweathermap.org/data/2.5/weather?q=${term}&appid=${API_KEY}&units=metric`
     const api = await fetch(reqWeather);
     const res = await api.json();
     console.log(res);
-    setcityState(res.name);
-    setTempState(calCelcius(res.main.temp));
-    setMinState(calCelcius(res.main.temp_min));
-    setMaxState(calCelcius(res.main.temp_max));
+    setCityState(res.name);
+    setTempState(res.main.temp);
+    setMinState(res.main.temp_min);
+    setMaxState(res.main.temp_max);
   };
 
   return(
@@ -34,7 +33,14 @@ const ShowWeather = () => {
         <Text style ={{color: 'yellow', fontSize: 25}}>Show Weather!</Text>
       </View>
 
-      <SearchBar />
+      <SearchBar 
+        term = {term}
+        onTermChange = {setTerm}
+        onTermSumbit = {() => {
+          getWeather();
+        }}
+        
+      />
 
       <WeatherComp 
         city = {city}

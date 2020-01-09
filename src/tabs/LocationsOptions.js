@@ -7,7 +7,7 @@ const LocationsOptions = () => {
       <View style = {styles.viewStyle}>
         <Text style ={{color: 'yellow', fontSize: 25}}>Locations Options!</Text>
       </View>
-      {/* <GooglePlaces /> */}
+      
     </View>
   );
 };

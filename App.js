@@ -4,8 +4,8 @@ import ShowWeather from './src/tabs/ShowWeather'
 import LocationsOptions from './src/tabs/LocationsOptions'
 
 const App = createBottomTabNavigator({
-  Show : ShowWeather,
-  Locations: LocationsOptions
+  Weather : ShowWeather,
+  Favorites: LocationsOptions
 });
 
 export default createAppContainer(App);
