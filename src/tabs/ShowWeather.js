@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
 import { Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import WeatherComp from '../components/WeatherComponent';
+import SearchBar from '../components/SearchBar';
 
 const API_KEY = '2f7af1a5465bd62281a469e954c520d5';
-const reqWeather = `http://api.openweathermap.org/data/2.5/weather?q=London&appid=${API_KEY}`
+const reqWeather = `http://api.openweathermap.org/data/2.5/weather?q=Ashdod&appid=${API_KEY}`
 
 const ShowWeather = () => {
 
@@ -32,6 +33,8 @@ const ShowWeather = () => {
       <View style = {styles.viewStyle}>
         <Text style ={{color: 'yellow', fontSize: 25}}>Show Weather!</Text>
       </View>
+
+      <SearchBar />
 
       <WeatherComp 
         city = {city}
