@@ -7,6 +7,14 @@ import 'moment-timezone';
 
 const API_KEY = '2f7af1a5465bd62281a469e954c520d5';
 
+const snow = '../assets/snow.jpg';
+const rain = '../assets/rain.jpeg';
+const showerRain = '../assets/shower_rain.jpg';
+const clearSky = '../assets/clear_sky.png';
+const thunderstorm = '../assets/thunderstorm.png';
+const clouds = '../assets/clouds.jpeg';
+const mist = '../assets/mist.jpeg';
+
 const ShowWeather = () => {
 
   const [city, setCityState] = useState('')
@@ -14,11 +22,39 @@ const ShowWeather = () => {
   const [minTemp, setMinState] = useState('')
   const [maxTemp, setMaxState] = useState('')
   const [icon, setIcon] = useState(null)
+  const [backgroundImage, setbackgroundImage] = useState(null)
   const [value, setValue] = useState('')
   const [time, setTime] = useState('')
   const [description, setDescription] = useState('')
   
-  
+  const setImage = (id) =>{
+    switch(true){
+      case id >= 200 && id <= 232:
+        setbackgroundImage(require(thunderstorm));
+        return;
+      case id >= 300 && id <= 321:
+        setbackgroundImage(require(showerRain));
+        return;
+      case id >= 500 && id <= 531:
+        setbackgroundImage(require(rain));
+        return;
+      case id >= 600 && id <= 622:
+        setbackgroundImage(require(snow));
+        return;
+      case id >= 701 && id <= 781:
+        setbackgroundImage(require(mist));
+        return;
+      case id == 800 || id == 801:
+        setbackgroundImage(require(clearSky));
+        return;
+      case id >= 802 && id <= 804:
+        setbackgroundImage(require(clouds));
+        return;
+      default:
+        //setbackgroundImage(require(clouds));
+        return;
+    }
+  }
 
   const getWeather = async () => {
     let reqWeather = `http://api.openweathermap.org/data/2.5/forecast?q=${value}&appid=${API_KEY}&units=metric`
@@ -27,6 +63,8 @@ const ShowWeather = () => {
     console.log(res);
     const date = moment().format('llll');
     //res.city.timezone
+    const id = res.list[0].weather[0].id
+    setImage(id);
     setTime(date);
     setCityState(res.city.name);
     setDescription(res.list[0].weather[0].description);
@@ -60,6 +98,7 @@ const ShowWeather = () => {
         minTemp = {minTemp}
         maxTemp = {maxTemp}
         icon = {icon}
+        backgroundImage = {backgroundImage}
       />
       <TouchableOpacity onPress={()=>{getWeather();}}><Text>click me</Text></TouchableOpacity>
     </View>
