@@ -1,20 +1,19 @@
 import React from 'react';
 import {View, TextInput, StyleSheet, TouchableOpacity, Image} from 'react-native';
 
-const SearchBar = ( { term, onTermChange, onTermSumbit } ) => {
+const SearchBar = ( { value, onValueChange, onValueSumbit } ) => {
   return (
       <View style = {styles.backgroundStyle}>
         <TextInput
           style = {styles.inputStyle}
           placeholder = 'Search'
-          value = {term}
-          onChangeText = {onTermChange}
-          //onEndEditing = {onTermSumbit}
+          value = {value}
+          onChangeText = {onValueChange}
           autoCapitalize = 'none'
           autoCorrect = {false}
           clearTextOnFocus = {true}
         />
-        <TouchableOpacity onPress = {onTermSumbit}>
+        <TouchableOpacity onPress = {onValueSumbit}>
           <Image 
           style={{width: 50, height: 50, justifyContent: 'center', alignItems: 'center', flex: 1}} source = {require('../assets/icon_finder.png')}/>
         </TouchableOpacity>
