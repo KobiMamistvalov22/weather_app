@@ -21,6 +21,7 @@ const WeatherComponent = ( {city, temp, minTemp, maxTemp, icon, description, bac
           <Text style = {{fontSize: 20, alignSelf: 'center', fontWeight: 'bold'}}> {description} </Text>
 
           <View style = {styles.minMaxTemp}>
+            
             <View style={{ flexDirection: 'row' }}>
               <Text style = {{fontSize: 15, fontWeight: 'bold'}}>Min: {minTemp} </Text>
               <Image style={{width: 7, height:7}} source = {require('../assets/circle.png')}/>
@@ -34,10 +35,10 @@ const WeatherComponent = ( {city, temp, minTemp, maxTemp, icon, description, bac
           </View>
           </ImageBackground>
         </View>
-        {/* <Button
+        <Button
           title = 'Add to favorites'
           onPress = {add}
-        /> */}
+        />
       
     </View>
   );

@@ -1,38 +1,44 @@
 import React from 'react';
-import {View, TextInput, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import { View, TextInput, StyleSheet, TouchableOpacity, Image } from 'react-native';
 
-const SearchBar = ( { value, onValueChange, onValueSumbit } ) => {
+const SearchBar = ({ value, onValueChange, onValueSumbit }) => {
   return (
-      <View style = {styles.backgroundStyle}>
+      <View style = {styles.container}>
         <TextInput
-          style = {styles.inputStyle}
+          style = {styles.input}
           placeholder = 'Search'
           value = {value}
           onChangeText = {onValueChange}
           autoCapitalize = 'none'
-          autoCorrect = {false}
-          clearTextOnFocus = {true}
+          autoCorrect={false}
+          clearTextOnFocus={false}
         />
-        <TouchableOpacity onPress = {onValueSumbit}>
+        <TouchableOpacity onPress = {onValueSumbit} disabled={value.length === 0}>
           <Image 
-          style={{width: 50, height: 50, justifyContent: 'center', alignItems: 'center', flex: 1}} source = {require('../assets/icon_finder.png')}/>
+            style={styles.searchIcon} 
+            source={require('../assets/icon_finder.png')}
+          />
         </TouchableOpacity>
       </View>
   );
 }
 
 const styles = StyleSheet.create({
-  backgroundStyle: {
-    marginTop: 10,
-    backgroundColor: '#F0EEEE',
-    height: 50,
+  container: {
     flexDirection: 'row',
+    height: 50,
+    backgroundColor: '#F0EEEE',
     borderRadius: 5,
+    marginTop: 10,
     marginHorizontal: 15
   },
-  inputStyle:{
+  input:{
     fontSize: 18,
     flex: 1
+  },
+  searchIcon: {
+    width: 50, 
+    height: 50
   }
 });
 

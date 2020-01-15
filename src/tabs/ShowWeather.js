@@ -15,40 +15,39 @@ const thunderstorm = '../assets/thunderstorm.png';
 const clouds = '../assets/clouds.jpeg';
 const mist = '../assets/mist.jpeg';
 
-const ShowWeather = () => {
-
-  const [city, setCityState] = useState('')
-  const [temp, setTempState] = useState('')
-  const [minTemp, setMinState] = useState('')
-  const [maxTemp, setMaxState] = useState('')
-  const [icon, setIcon] = useState(null)
-  const [backgroundImage, setbackgroundImage] = useState(null)
-  const [value, setValue] = useState('')
-  const [time, setTime] = useState('')
-  const [description, setDescription] = useState('')
+const ShowWeather = ({ navigation }) => {
+  const [city, setCityState] = useState('');
+  const [temp, setTempState] = useState('');
+  const [minTemp, setMinState] = useState('');
+  const [maxTemp, setMaxState] = useState('');
+  const [icon, setIcon] = useState(null);
+  const [backgroundImage, setBackgroundImage] = useState(null);
+  const [value, setValue] = useState('');
+  const [time, setTime] = useState('');
+  const [description, setDescription] = useState('');
   
   const setImage = (id) =>{
     switch(true){
       case id >= 200 && id <= 232:
-        setbackgroundImage(require(thunderstorm));
+        setBackgroundImage(require(thunderstorm));
         return;
       case id >= 300 && id <= 321:
-        setbackgroundImage(require(showerRain));
+        setBackgroundImage(require(showerRain));
         return;
       case id >= 500 && id <= 531:
-        setbackgroundImage(require(rain));
+        setBackgroundImage(require(rain));
         return;
       case id >= 600 && id <= 622:
-        setbackgroundImage(require(snow));
+        setBackgroundImage(require(snow));
         return;
       case id >= 701 && id <= 781:
-        setbackgroundImage(require(mist));
+        setBackgroundImage(require(mist));
         return;
       case id == 800 || id == 801:
-        setbackgroundImage(require(clearSky));
+        setBackgroundImage(require(clearSky));
         return;
       case id >= 802 && id <= 804:
-        setbackgroundImage(require(clouds));
+        setBackgroundImage(require(clouds));
         return;
       default:
         //setbackgroundImage(require(clouds));
@@ -75,20 +74,35 @@ const ShowWeather = () => {
     setIcon(iconUrl);
   };
 
+  const getDetails = () =>{
+    const getCity = city;
+    const getTemp = temp;
+    return(getCity);
+  };
+
+  const addToFavorites = () => {
+    if(city == ''){
+      return;
+    }else{
+      setDetails([...details, getDetails()]);
+      //navigation.navigate()
+      console.log(getDetails());
+      navigation.navigate('Favorites', {details: details})
+      console.log(details);
+    }
+  };
+
   return(
     <View>
-      <View style = {styles.viewStyle}>
-        <Text style ={{color: 'yellow', fontSize: 25}}>Show Weather!</Text>
-        <Text style ={{color: 'yellow', fontSize: 25}}> {time} </Text>
+      <View style={styles.viewStyle}>
+        <Text style={{ color: 'yellow', fontSize: 25 }}>Show Weather!</Text>
+        <Text style={{ color: 'yellow', fontSize: 25 }}> {time} </Text>
       </View>
 
       <SearchBar 
-        value = {value}
-        onValueChange = {setValue}
-        onValueSumbit = {() => {
-          getWeather();
-        }}
-        
+        value={value}
+        onValueChange={setValue}
+        onValueSumbit={getWeather}
       />
 
       <WeatherComponent 
@@ -99,6 +113,7 @@ const ShowWeather = () => {
         maxTemp = {maxTemp}
         icon = {icon}
         backgroundImage = {backgroundImage}
+        add = {addToFavorites}
       />
       <TouchableOpacity onPress={()=>{getWeather();}}><Text>click me</Text></TouchableOpacity>
     </View>
@@ -109,7 +124,7 @@ const styles = StyleSheet.create({
   viewStyle:{
     justifyContent: 'center',
     alignItems: "center",
-    backgroundColor: 'blue',
+    backgroundColor: '#00F',
     height: 180
   }
 });

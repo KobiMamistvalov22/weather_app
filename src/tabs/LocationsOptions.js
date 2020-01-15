@@ -1,12 +1,30 @@
 import React from 'react';
-import { Text, View, StyleSheet} from 'react-native';
+import { Text, View, StyleSheet, FlatList} from 'react-native';
+import FavoritesDetail from '../components/FavoritesDetail';
 
-const LocationsOptions = () => {
+const LocationsOptions = ( { navigation } ) => {
+
+  const details = navigation.getParam( details )
+  console.log(`${details}`);
+
   return(
     <View>
       <View style = {styles.viewStyle}>
         <Text style ={{color: 'yellow', fontSize: 25}}>Locations Options!</Text>
       </View>
+
+      <FlatList
+        showsVerticalScrollIndicator = {false}
+        data = {details}
+        keyExtractor = {item => item.getCity}
+        renderItem = {( { result } ) => {
+          return(
+            <FavoritesDetail 
+              result = { result }
+            />
+          );
+        }}
+      />
       
     </View>
   );
