@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import { Text, View, StyleSheet, TouchableOpacity} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Text, View, StyleSheet, TouchableOpacity, AsyncStorage } from 'react-native';
 import WeatherComponent from '../components/WeatherComponent';
 import SearchBar from '../components/SearchBar';
 import moment from 'moment';
@@ -17,6 +17,7 @@ const mist = '../assets/mist.jpeg';
 
 const ShowWeather = ({ navigation }) => {
   const [city, setCityState] = useState('');
+  const [favoriteCities, setFavoriteCities] = useState([]);
   const [temp, setTempState] = useState('');
   const [minTemp, setMinState] = useState('');
   const [maxTemp, setMaxState] = useState('');
@@ -26,6 +27,21 @@ const ShowWeather = ({ navigation }) => {
   const [time, setTime] = useState('');
   const [description, setDescription] = useState('');
   
+  useEffect(() => {
+    const getCityAndWeather = async () => {
+      const favoriteCitiesFromStorage = JSON.parse(await AsyncStorage.getItem('favoriteCities'));
+
+      if (favoriteCitiesFromStorage && favoriteCitiesFromStorage.length > 0) {
+        console.log('favoriteCities', favoriteCitiesFromStorage);
+        setFavoriteCities(favoriteCitiesFromStorage);
+
+        getWeather(favoriteCitiesFromStorage[0]);
+      }
+    };
+
+    getCityAndWeather();
+  }, []);
+
   const setImage = (id) =>{
     switch(true){
       case id >= 200 && id <= 232:
@@ -50,18 +66,16 @@ const ShowWeather = ({ navigation }) => {
         setBackgroundImage(require(clouds));
         return;
       default:
-        //setbackgroundImage(require(clouds));
         return;
     }
   }
 
-  const getWeather = async () => {
-    let reqWeather = `http://api.openweathermap.org/data/2.5/forecast?q=${value}&appid=${API_KEY}&units=metric`
+  const getWeather = async (cityName) => {
+    let reqWeather = `http://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${API_KEY}&units=metric`
     const api = await fetch(reqWeather);
     const res = await api.json();
-    console.log(res);
+    
     const date = moment().format('llll');
-    //res.city.timezone
     const id = res.list[0].weather[0].id
     setImage(id);
     setTime(date);
@@ -74,22 +88,17 @@ const ShowWeather = ({ navigation }) => {
     setIcon(iconUrl);
   };
 
-  const getDetails = () =>{
-    const getCity = city;
-    const getTemp = temp;
-    return(getCity);
-  };
+  // const getDetails = () =>{
+  //   const getCity = city;
+  //   const getTemp = temp;
+  //   return(getCity);
+  // };
 
-  const addToFavorites = () => {
-    if(city == ''){
-      return;
-    }else{
-      setDetails([...details, getDetails()]);
-      //navigation.navigate()
-      console.log(getDetails());
-      navigation.navigate('Favorites', {details: details})
-      console.log(details);
-    }
+  const addToFavorites = async () => {
+
+    favoriteCities.unshift(city);
+    console.log('favoriteCities push', favoriteCities);
+    await AsyncStorage.setItem('favoriteCities', JSON.stringify(favoriteCities));
   };
 
   return(
@@ -102,20 +111,19 @@ const ShowWeather = ({ navigation }) => {
       <SearchBar 
         value={value}
         onValueChange={setValue}
-        onValueSumbit={getWeather}
+        onValueSumbit={() => getWeather(value)}
       />
 
       <WeatherComponent 
-        city = {city}
-        description = {description}
-        temp = {temp}
-        minTemp = {minTemp}
-        maxTemp = {maxTemp}
-        icon = {icon}
-        backgroundImage = {backgroundImage}
-        add = {addToFavorites}
+        city={city}
+        description={description}
+        temp={temp}
+        minTemp={minTemp}
+        maxTemp={maxTemp}
+        icon={icon}
+        backgroundImage={backgroundImage}
+        addToFavorites={addToFavorites}
       />
-      <TouchableOpacity onPress={()=>{getWeather();}}><Text>click me</Text></TouchableOpacity>
     </View>
   );
 };

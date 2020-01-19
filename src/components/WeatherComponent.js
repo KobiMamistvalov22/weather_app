@@ -4,7 +4,7 @@ import { Text, View, Button, StyleSheet, Image, ImageBackground} from 'react-nat
 //const someIcon = 'http://openweathermap.org/img/wn/10d@2x.png';
 
 
-const WeatherComponent = ( {city, temp, minTemp, maxTemp, icon, description, backgroundImage, add} ) => {
+const WeatherComponent = ( {city, temp, minTemp, maxTemp, icon, description, backgroundImage, addToFavorites} ) => {
 
   return(
     <View style = {styles.container}>
@@ -37,7 +37,7 @@ const WeatherComponent = ( {city, temp, minTemp, maxTemp, icon, description, bac
         </View>
         <Button
           title = 'Add to favorites'
-          onPress = {add}
+          onPress = {addToFavorites}
         />
       
     </View>

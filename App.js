@@ -1,11 +1,11 @@
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
-import ShowWeather from './src/tabs/ShowWeather'
-import LocationsOptions from './src/tabs/LocationsOptions'
+import WeatherTab from './src/tabs/WeatherTab'
+import FavoritesTab from './src/tabs/FavoritesTab'
 
 const App = createBottomTabNavigator({
-  Weather : ShowWeather,
-  Favorites: LocationsOptions
+  Weather : WeatherTab,
+  Favorites: FavoritesTab
 });
 
 export default createAppContainer(App);

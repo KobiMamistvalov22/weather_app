@@ -5,8 +5,8 @@ const FavoritesDetail = ( { result } ) => {
   return(
     <View style = {{marginTop: 10, borderTopWidth: 10}}>
       <View style = {styles.itemStyle}>
-        <Text style = {styles.cityText}> {result.getCity} </Text>
-        <Text style = {styles.tempText}> {result.getTemp} </Text>
+        <Text style = {styles.cityText}> {result.city.nam} </Text>
+        <Text style = {styles.tempText}> {result.list[0].main.temp} </Text>
       </View>
       <TouchableOpacity>
         <Text>delet</Text>
