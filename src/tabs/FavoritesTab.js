@@ -3,33 +3,22 @@ import { Text, View, StyleSheet, FlatList, AsyncStorage, Button} from 'react-nat
 import FavoritesDetail from '../components/FavoritesDetail';
 import moment from 'moment';
 import 'moment-timezone';
-
-const API_KEY = '2f7af1a5465bd62281a469e954c520d5';
+import { getWeatherFromServer } from '../Utils/utils';
 
 const LocationsOptions = ( { navigation } ) => {
-
   const [cities, setCities] = useState([]);
-  const [temp, setTemp] = useState('');
   const [time, setTime] = useState('');
 
   useEffect(() => {
     const getCityNames = async () => {
       const cityNamesFromStorage = JSON.parse(await AsyncStorage.getItem('favoriteCities'));
-      // setCityNames(cityNamesFromStorage);
-      // for(let i = 0; i < cityNamesFromStorage.length; i++){
-      //   console.log(cityNamesFromStorage[i]);
-      //   getWeather(cityNamesFromStorage[i]);
-      // }
       const cities = await Promise.all(
         cityNamesFromStorage.map(async cityName => {
           return await getWeather(cityName);
         }),
-        //console.log(cityNamesFromStorage)
       );
 
       setCities(cities);
-      
-      debugger;
     };
 
     getCityNames();
@@ -41,14 +30,11 @@ const LocationsOptions = ( { navigation } ) => {
   }
 
   const getWeather = async (cityName) => {
-    let reqWeather = `http://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${API_KEY}&units=metric`
-    const api = await fetch(reqWeather);
-    const res = await api.json();
-  
+    const res = getWeatherFromServer(cityName);
 
     const data = {
       name: res.city.name,
-      temp: res.list[0].main.temp
+      temp: Math.floor(res.list[0].main.temp)
     }
 
     return data;
@@ -66,7 +52,6 @@ const LocationsOptions = ( { navigation } ) => {
         title= 'click me!!!!!!!!!!'
         onPress= {() => {
           timeTitle();
-          //getFromStorage();
         }}
       />
 

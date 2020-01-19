@@ -4,8 +4,7 @@ import WeatherComponent from '../components/WeatherComponent';
 import SearchBar from '../components/SearchBar';
 import moment from 'moment';
 import 'moment-timezone';
-
-const API_KEY = '2f7af1a5465bd62281a469e954c520d5';
+import { getWeatherFromServer } from '../Utils/utils';
 
 const snow = '../assets/snow.jpg';
 const rain = '../assets/rain.jpeg';
@@ -71,9 +70,7 @@ const ShowWeather = ({ navigation }) => {
   }
 
   const getWeather = async (cityName) => {
-    let reqWeather = `http://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${API_KEY}&units=metric`
-    const api = await fetch(reqWeather);
-    const res = await api.json();
+    const res = getWeatherFromServer(cityName);
     
     const date = moment().format('llll');
     const id = res.list[0].weather[0].id
@@ -87,12 +84,6 @@ const ShowWeather = ({ navigation }) => {
     const iconUrl = `http://openweathermap.org/img/wn/${res.list[0].weather[0].icon}@2x.png`;
     setIcon(iconUrl);
   };
-
-  // const getDetails = () =>{
-  //   const getCity = city;
-  //   const getTemp = temp;
-  //   return(getCity);
-  // };
 
   const addToFavorites = async () => {
 
