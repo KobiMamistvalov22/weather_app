@@ -6,6 +6,9 @@ import moment from 'moment';
 import 'moment-timezone';
 import { getWeatherFromServer } from '../Utils/utils';
 
+const API_KEY = '2f7af1a5465bd62281a469e954c520d5';
+
+
 const snow = '../assets/snow.jpg';
 const rain = '../assets/rain.jpeg';
 const showerRain = '../assets/shower_rain.jpg';
@@ -70,7 +73,11 @@ const ShowWeather = ({ navigation }) => {
   }
 
   const getWeather = async (cityName) => {
-    const res = getWeatherFromServer(cityName);
+    //const res = getWeatherFromServer(cityName);
+
+    let reqWeather = `http://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${API_KEY}&units=metric`
+    const api = await fetch(reqWeather);
+    const res = await api.json();
     
     const date = moment().format('llll');
     const id = res.list[0].weather[0].id
