@@ -28,7 +28,7 @@ const LocationsOptions = ( { navigation } ) => {
 
   const timeTitle = () => {
     const date = moment().format('llll');
-    setTime(date);
+    return date;
   }
 
   const getWeather = async (cityName) => {
@@ -48,51 +48,45 @@ const LocationsOptions = ( { navigation } ) => {
     return data;
 
   };
-//style={styles.viewStyle}
+
   return(
     <View style={styles.viewStyle}>
       <View style={styles.headerStyle}>
         <Text style={{color: 'yellow', fontSize: 25}}>Locations Options!</Text>
-        <Text style={{ color: 'yellow', fontSize: 25 }}> {time} </Text>
+        <Text style={{ color: 'yellow', fontSize: 25 }}> {timeTitle()} </Text>
       </View>
 
       <Button 
         title= 'click me!!!!!!!!!!'
         onPress= {() => {
-          timeTitle();
+          setTime(timeTitle);
+          useEffect;
         }}
       />
 
-      <ScrollView 
-        showsVerticalScrollIndicator={false}
-      >
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          data={cities}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({ item }) => {
-            return(
-              <FavoritesDetail 
-                result = { item }
-              />
-            );
-          }}
-        />
-      </ScrollView>
+      <FlatList
+        data={cities}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => {
+          return(
+            <FavoritesDetail 
+              result = { item }
+            />
+          );
+        }}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   viewStyle:{
-    //justifyContent: 'center',
-    //alignItems: "center",
+    flex: 1,
     backgroundColor: 'blue'
   },
   headerStyle:{
     justifyContent: 'center',
     alignItems: "center",
-    //backgroundColor: 'blue',
     height: 180
   }
 });
