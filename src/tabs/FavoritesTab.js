@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, FlatList, AsyncStorage, Button, ScrollView} from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Text, View, StyleSheet, FlatList, AsyncStorage, Button, RefreshControl} from 'react-native';
 import FavoritesDetail from '../components/FavoritesDetail';
 import moment from 'moment';
 import 'moment-timezone';
@@ -9,6 +9,19 @@ const LocationsOptions = ( { navigation } ) => {
   const [cities, setCities] = useState([]);
   const [time, setTime] = useState('');
   const API_KEY = '2f7af1a5465bd62281a469e954c520d5';
+  const [refreshing, setRefreshing] = useState(false);
+
+  function wait(timeout) {
+    return new Promise(resolve => {
+      setTimeout(resolve, timeout);
+    });
+  };
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    useEffect;
+    wait(2000).then(() => setRefreshing(false));
+  }, [refreshing]);
 
 
   useEffect(() => {
@@ -59,12 +72,17 @@ const LocationsOptions = ( { navigation } ) => {
       <Button 
         title= 'click me!!!!!!!!!!'
         onPress= {() => {
-          setTime(timeTitle);
-          useEffect;
+          //setTime(timeTitle);
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh()}/>
+          //useEffect;
+          //setCities(cities);
         }}
       />
 
       <FlatList
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
         data={cities}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => {

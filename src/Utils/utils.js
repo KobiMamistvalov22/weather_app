@@ -10,4 +10,6 @@ export const getWeatherFromServer = async (cityName) => {
   let reqWeather = `http://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${API_KEY}&units=metric`
   const api = await fetch(reqWeather);
   return await api.json();
+  
 };
+
