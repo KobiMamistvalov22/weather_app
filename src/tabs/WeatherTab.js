@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Text, View, StyleSheet, AsyncStorage} from 'react-native';
+import {Text, View, StyleSheet, AsyncStorage, Alert} from 'react-native';
 import WeatherComponent from '../components/WeatherComponent';
 import SearchBar from '../components/SearchBar';
 import moment from 'moment';
@@ -55,21 +55,27 @@ const ShowWeather = () => {
   };
 
   const getWeather = async cityName => {
-    const res = await getWeatherFromServer(cityName);
-    debugger;
-    const date = moment().format('llll');
-    const id = res.list[0].weather[0].id;
-    setImage(id);
-    setTime(date);
-    setCityState(res.city.name);
-    setDescription(res.list[0].weather[0].description);
-    setTempState(Math.floor(res.list[0].main.temp));
-    setMinState(Math.floor(res.list[0].main.temp_min));
-    setMaxState(Math.floor(res.list[0].main.temp_max));
-    const iconUrl = `http://openweathermap.org/img/wn/${
-      res.list[0].weather[0].icon
-    }@2x.png`;
-    setIcon(iconUrl);
+    try {
+      const res = await getWeatherFromServer(cityName);
+      debugger;
+      const date = moment().format('llll');
+      const id = res.list[0].weather[0].id;
+      setImage(id);
+      setTime(date);
+      setCityState(res.city.name);
+      setDescription(res.list[0].weather[0].description);
+      setTempState(Math.floor(res.list[0].main.temp));
+      setMinState(Math.floor(res.list[0].main.temp_min));
+      setMaxState(Math.floor(res.list[0].main.temp_max));
+      const iconUrl = `http://openweathermap.org/img/wn/${
+        res.list[0].weather[0].icon
+      }@2x.png`;
+      setIcon(iconUrl);
+    } catch (e) {
+      Alert.alert(
+        'Your account is temporary blocked due to exceeding of requests limitation of your subscription type',
+      );
+    }
   };
 
   const addToFavorites = async () => {

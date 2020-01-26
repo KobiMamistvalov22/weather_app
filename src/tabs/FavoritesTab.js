@@ -6,6 +6,7 @@ import {
   FlatList,
   AsyncStorage,
   Button,
+  Alert,
   RefreshControl,
 } from 'react-native';
 import FavoritesDetail from '../components/FavoritesDetail';
@@ -56,18 +57,22 @@ const FavoritesTab = ({navigation}) => {
   };
 
   const getWeather = async cityName => {
-    const res = await getWeatherFromServer(cityName);
-    //debugger;
-    const data = {
-      name: res.city.name,
-      description: res.list[0].weather[0].description,
-      temp: Math.floor(res.list[0].main.temp),
-      icon: `http://openweathermap.org/img/wn/${
-        res.list[0].weather[0].icon
-      }@2x.png`,
-    };
-
-    return data;
+    try {
+      const res = await getWeatherFromServer(cityName);
+      const data = {
+        name: res.city.name,
+        description: res.list[0].weather[0].description,
+        temp: Math.floor(res.list[0].main.temp),
+        icon: `http://openweathermap.org/img/wn/${
+          res.list[0].weather[0].icon
+        }@2x.png`,
+      };
+      return data;
+    } catch (e) {
+      Alert.alert(
+        'Your account is temporary blocked due to exceeding of requests limitation of your subscription type',
+      );
+    }
   };
   // const deleteItemById = id => {
   //   const filteredData = this.state.data.filter(item => item.id !== id);
