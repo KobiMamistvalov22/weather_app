@@ -69,6 +69,7 @@ const FavoritesTab = ({navigation}) => {
       };
       return data;
     } catch (e) {
+      setCities([]);
       Alert.alert(
         'Your account is temporary blocked due to exceeding of requests limitation of your subscription type',
       );

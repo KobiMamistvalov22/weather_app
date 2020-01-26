@@ -1,11 +1,27 @@
-import { createAppContainer } from 'react-navigation';
-import { createBottomTabNavigator } from 'react-navigation-tabs';
-import WeatherTab from './src/tabs/WeatherTab'
-import FavoritesTab from './src/tabs/FavoritesTab'
+import React, {PureComponent} from 'react';
+import {StyleSheet, View} from 'react-native';
+import {Provider} from 'react-redux';
+import AppRouter from './src/Router';
+import storeFactory from './src/store';
+const store = storeFactory();
 
-const App = createBottomTabNavigator({
-  Weather : WeatherTab,
-  Favorites: FavoritesTab
+class App extends PureComponent {
+  render() {
+    return (
+      <View style={styles.container}>
+        <Provider store={store}>
+          <AppRouter />
+        </Provider>
+      </View>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
 });
 
-export default createAppContainer(App);
+export default App;
