@@ -4,11 +4,11 @@ import {
   View,
   StyleSheet,
   FlatList,
-  AsyncStorage,
   Button,
   Alert,
   RefreshControl,
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import FavoritesDetail from '../components/FavoritesDetail';
 import moment from 'moment';
 import 'moment-timezone';
@@ -59,6 +59,7 @@ const FavoritesTab = ({navigation}) => {
   const getWeather = async cityName => {
     try {
       const res = await getWeatherFromServer(cityName);
+      debugger;
       const data = {
         name: res.city.name,
         description: res.list[0].weather[0].description,
@@ -69,6 +70,8 @@ const FavoritesTab = ({navigation}) => {
       };
       return data;
     } catch (e) {
+      const x = e;
+      debugger;
       setCities([]);
       Alert.alert(
         'Your account is temporary blocked due to exceeding of requests limitation of your subscription type',

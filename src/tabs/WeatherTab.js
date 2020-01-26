@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import {Text, View, StyleSheet, AsyncStorage, Alert} from 'react-native';
+import {Text, View, StyleSheet, Alert} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import WeatherComponent from '../components/WeatherComponent';
 import SearchBar from '../components/SearchBar';
 import moment from 'moment';
