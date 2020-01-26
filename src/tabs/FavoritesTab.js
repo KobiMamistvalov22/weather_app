@@ -48,11 +48,7 @@ const FavoritesTab = ( { navigation } ) => {
   }
 
   const getWeather = async (cityName) => {
-    //const res = getWeatherFromServer(cityName);
-
-    let reqWeather = `http://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${API_KEY}&units=metric`
-    const api = await fetch(reqWeather);
-    const res = await api.json();
+    const res = await getWeatherFromServer(cityName);
 
     const data = {
       name: res.city.name,
@@ -64,10 +60,10 @@ const FavoritesTab = ( { navigation } ) => {
     return data;
 
   };
-  const deleteItemById = id => {
-    const filteredData = this.state.data.filter(item => item.id !== id);
-    this.setState({ data: filteredData });
-  }
+  // const deleteItemById = id => {
+  //   const filteredData = this.state.data.filter(item => item.id !== id);
+  //   this.setState({ data: filteredData });
+  // }
 
   return(
     <View style={styles.viewStyle}>
