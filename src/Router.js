@@ -3,9 +3,9 @@ import {createBottomTabNavigator} from 'react-navigation-tabs';
 import WeatherTab from './tabs/WeatherTab';
 import FavoritesTab from './tabs/FavoritesTab';
 
-const AppRouter = createBottomTabNavigator({
+const Root = createBottomTabNavigator({
   Weather: WeatherTab,
   Favorites: FavoritesTab,
 });
 
-export default createAppContainer(AppRouter);
+export const AppRouter = createAppContainer(Root);

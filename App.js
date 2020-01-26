@@ -1,21 +1,22 @@
-import React, {PureComponent} from 'react';
-import {StyleSheet, View} from 'react-native';
+import React from 'react';
+import {StyleSheet, View, YellowBox} from 'react-native';
 import {Provider} from 'react-redux';
-import AppRouter from './src/Router';
+import {AppRouter} from './src/Router';
 import storeFactory from './src/store';
+
 const store = storeFactory();
 
-class App extends PureComponent {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Provider store={store}>
-          <AppRouter />
-        </Provider>
-      </View>
-    );
-  }
-}
+YellowBox.ignoreWarnings(['componentWill']);
+
+const App = () => {
+  return (
+    <View style={styles.container}>
+      <Provider store={store}>
+        <AppRouter />
+      </Provider>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {

@@ -1,8 +1,11 @@
-import React, {useState, useEffect} from 'react';
-import {Text, View, StyleSheet, Alert} from 'react-native';
+import React, {useState} from 'react';
+import {Text, View, StyleSheet, Alert, Button} from 'react-native';
+import {bindActionCreators} from 'redux';
+import connect from 'react-redux/es/connect/connect';
 import AsyncStorage from '@react-native-community/async-storage';
 import WeatherComponent from '../components/WeatherComponent';
 import SearchBar from '../components/SearchBar';
+import {demoAction} from '../actions/WeaterActions';
 import moment from 'moment';
 import 'moment-timezone';
 import {getWeatherFromServer} from '../Utils/utils';
@@ -15,9 +18,9 @@ const thunderstorm = '../assets/thunderstorm.png';
 const clouds = '../assets/clouds.jpeg';
 const mist = '../assets/mist.jpeg';
 
-const ShowWeather = () => {
+const WeatherTab = ({demoAction, demoText}) => {
   const [city, setCityState] = useState('');
-  const [favoriteCities, setFavoriteCities] = useState([]);
+  const [favoriteCities] = useState([]);
   const [temp, setTempState] = useState('');
   const [minTemp, setMinState] = useState('');
   const [maxTemp, setMaxState] = useState('');
@@ -58,7 +61,6 @@ const ShowWeather = () => {
   const getWeather = async cityName => {
     try {
       const res = await getWeatherFromServer(cityName);
-      debugger;
       const date = moment().format('llll');
       const id = res.list[0].weather[0].id;
       setImage(id);
@@ -111,6 +113,9 @@ const ShowWeather = () => {
         backgroundImage={backgroundImage}
         addToFavorites={addToFavorites}
       />
+
+      <Button title="Text Redux" onPress={() => demoAction()} />
+      <Text>{demoText}</Text>
     </View>
   );
 };
@@ -127,4 +132,27 @@ const styles = StyleSheet.create({
     fontSize: 25,
   },
 });
-export default ShowWeather;
+
+const mapStateToProps = state => {
+  const {
+    weather: {demoText},
+  } = state;
+
+  return {
+    demoText,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators(
+    {
+      demoAction,
+    },
+    dispatch,
+  );
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(WeatherTab);
