@@ -5,7 +5,7 @@ import moment from 'moment';
 import 'moment-timezone';
 import { getWeatherFromServer } from '../Utils/utils';
 
-const LocationsOptions = ( { navigation } ) => {
+const FavoritesTab = ( { navigation } ) => {
   const [cities, setCities] = useState([]);
   const [time, setTime] = useState('');
   const API_KEY = '2f7af1a5465bd62281a469e954c520d5';
@@ -19,8 +19,11 @@ const LocationsOptions = ( { navigation } ) => {
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-    useEffect;
-    wait(2000).then(() => setRefreshing(false));
+    cities
+    wait(2000).then(() => {setRefreshing(false);
+      setCities(cities);
+      useEffect;
+    });
   }, [refreshing]);
 
 
@@ -61,27 +64,30 @@ const LocationsOptions = ( { navigation } ) => {
     return data;
 
   };
+  const deleteItemById = id => {
+    const filteredData = this.state.data.filter(item => item.id !== id);
+    this.setState({ data: filteredData });
+  }
 
   return(
     <View style={styles.viewStyle}>
       <View style={styles.headerStyle}>
-        <Text style={{color: 'yellow', fontSize: 25}}>Locations Options!</Text>
-        <Text style={{ color: 'yellow', fontSize: 25 }}> {timeTitle()} </Text>
+        <Text style={{color: 'black', fontSize: 25}}>Favorites!</Text>
+        <Text style={{ color: 'black', fontSize: 25 }}> {timeTitle()} </Text>
       </View>
 
       <Button 
+        color='#000000'
         title= 'click me!!!!!!!!!!'
         onPress= {() => {
-          //setTime(timeTitle);
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh()}/>
-          //useEffect;
-          //setCities(cities);
         }}
       />
 
       <FlatList
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          
         }
         data={cities}
         keyExtractor={(item, index) => index.toString()}
@@ -89,6 +95,7 @@ const LocationsOptions = ( { navigation } ) => {
           return(
             <FavoritesDetail 
               result = { item }
+              
             />
           );
         }}
@@ -100,7 +107,7 @@ const LocationsOptions = ( { navigation } ) => {
 const styles = StyleSheet.create({
   viewStyle:{
     flex: 1,
-    backgroundColor: 'blue'
+    backgroundColor: '#99FFFF'
   },
   headerStyle:{
     justifyContent: 'center',
@@ -108,4 +115,4 @@ const styles = StyleSheet.create({
     height: 180
   }
 });
-export default LocationsOptions;
+export default FavoritesTab;
