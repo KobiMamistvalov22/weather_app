@@ -3,27 +3,26 @@ import {Text, StyleSheet, View, TouchableOpacity, Image} from 'react-native';
 
 const FavoritesDetail = ({result, deleteBtn}) => {
   return (
-    <View>
-      <View style={styles.itemStyle}>
-        <View style={styles.list}>
-          <Text style={styles.cityText}> {result.name} </Text>
-          <Text style={styles.descriptionText}> {result.description} </Text>
-        </View>
-        <View>
-          <Text style={styles.tempText}> {result.temp} </Text>
-          <Image style={styles.image} source={{uri: result.icon}} />
-        </View>
-        <TouchableOpacity onPress={deleteBtn} style={styles.deleteBtn}>
-          <Text>delete</Text>
-        </TouchableOpacity>
+    <View style={styles.itemStyle}>
+      <View style={styles.list}>
+        <Text style={styles.cityText}>{result.name}</Text>
+        <Text style={styles.descriptionText}>{result.description}</Text>
       </View>
+      <View style={styles.dataContainer}>
+        <Text style={styles.tempText}>{result.temp}</Text>
+        <Image style={styles.image} source={{uri: result.icon}} />
+      </View>
+      <TouchableOpacity onPress={deleteBtn} style={styles.deleteBtn}>
+        <Text>delete</Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   list: {
-    alignSelf: 'center',
+    flex: 1,
+    justifyContent: 'center',
   },
   viewStyle: {
     marginTop: 10,
@@ -32,7 +31,7 @@ const styles = StyleSheet.create({
   },
   itemStyle: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    padding: 20,
   },
   cityText: {
     fontSize: 20,
@@ -49,10 +48,15 @@ const styles = StyleSheet.create({
   image: {
     width: 40,
     height: 40,
-    alignSelf: 'center',
   },
-  seletBtn: {
-    alignSelf: 'center',
+  deleteBtn: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+  },
+  dataContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

@@ -32,19 +32,20 @@ const SearchBar = ({value, onValueChange, onValueSumbit}) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    height: 50,
-    backgroundColor: '#F0EEEE',
-    borderRadius: 5,
-    marginTop: 10,
-    marginHorizontal: 15,
+    borderRadius: 10,
+    margin: 15,
+    marginTop: 0,
+    padding: 10,
+    borderWidth: 1,
   },
   input: {
     fontSize: 18,
     flex: 1,
+    height: 20,
   },
   searchIcon: {
-    width: 50,
-    height: 50,
+    width: 20,
+    height: 20,
   },
 });
 

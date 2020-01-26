@@ -8,13 +8,15 @@ import {
   Alert,
   RefreshControl,
 } from 'react-native';
+import {bindActionCreators} from 'redux';
+import connect from 'react-redux/es/connect/connect';
 import AsyncStorage from '@react-native-community/async-storage';
 import FavoritesDetail from '../components/FavoritesDetail';
 import moment from 'moment';
 import 'moment-timezone';
 import {getWeatherFromServer} from '../Utils/utils';
 
-const FavoritesTab = ({navigation}) => {
+const FavoritesTab = ({navigation, demoText}) => {
   const [cities, setCities] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -59,7 +61,6 @@ const FavoritesTab = ({navigation}) => {
   const getWeather = async cityName => {
     try {
       const res = await getWeatherFromServer(cityName);
-      debugger;
       const data = {
         name: res.city.name,
         description: res.list[0].weather[0].description,
@@ -70,8 +71,6 @@ const FavoritesTab = ({navigation}) => {
       };
       return data;
     } catch (e) {
-      const x = e;
-      debugger;
       setCities([]);
       Alert.alert(
         'Your account is temporary blocked due to exceeding of requests limitation of your subscription type',
@@ -98,6 +97,8 @@ const FavoritesTab = ({navigation}) => {
         }}
       />
 
+      <Text>{demoText}</Text>
+
       <FlatList
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -107,6 +108,8 @@ const FavoritesTab = ({navigation}) => {
         renderItem={({item}) => {
           return <FavoritesDetail result={item} />;
         }}
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
       />
     </View>
   );
@@ -127,4 +130,22 @@ const styles = StyleSheet.create({
     fontSize: 25,
   },
 });
-export default FavoritesTab;
+
+const mapStateToProps = state => {
+  const {
+    weather: {demoText},
+  } = state;
+
+  return {
+    demoText,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators({}, dispatch);
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(FavoritesTab);

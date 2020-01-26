@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Text, View, StyleSheet, Alert, Button} from 'react-native';
 import {bindActionCreators} from 'redux';
 import connect from 'react-redux/es/connect/connect';
+import LinearGradient from 'react-native-linear-gradient';
 import AsyncStorage from '@react-native-community/async-storage';
 import WeatherComponent from '../components/WeatherComponent';
 import SearchBar from '../components/SearchBar';
@@ -18,9 +19,8 @@ const thunderstorm = '../assets/thunderstorm.png';
 const clouds = '../assets/clouds.jpeg';
 const mist = '../assets/mist.jpeg';
 
-const WeatherTab = ({demoAction, demoText}) => {
+const WeatherTab = ({demoAction}) => {
   const [city, setCityState] = useState('');
-  const [favoriteCities] = useState([]);
   const [temp, setTempState] = useState('');
   const [minTemp, setMinState] = useState('');
   const [maxTemp, setMaxState] = useState('');
@@ -82,26 +82,28 @@ const WeatherTab = ({demoAction, demoText}) => {
   };
 
   const addToFavorites = async () => {
-    favoriteCities.unshift(city);
-    console.log('favoriteCities push', favoriteCities);
+    const cityNamesFromStorage = JSON.parse(
+      await AsyncStorage.getItem('favoriteCities'),
+    );
+    cityNamesFromStorage.unshift(city);
+    console.log('favoriteCities push', cityNamesFromStorage);
     await AsyncStorage.setItem(
       'favoriteCities',
-      JSON.stringify(favoriteCities),
+      JSON.stringify(cityNamesFromStorage),
     );
   };
 
   return (
     <View>
-      <View style={styles.viewStyle}>
+      <LinearGradient colors={['#4982fc', '#ffffff']} style={styles.viewStyle}>
         <Text style={styles.text}>Show Weather!</Text>
         <Text style={styles.text}> {time} </Text>
-      </View>
-
-      <SearchBar
-        value={value}
-        onValueChange={setValue}
-        onValueSumbit={() => getWeather(value)}
-      />
+        <SearchBar
+          value={value}
+          onValueChange={setValue}
+          onValueSumbit={() => getWeather(value)}
+        />
+      </LinearGradient>
 
       <WeatherComponent
         city={city}
@@ -114,8 +116,10 @@ const WeatherTab = ({demoAction, demoText}) => {
         addToFavorites={addToFavorites}
       />
 
-      <Button title="Text Redux" onPress={() => demoAction()} />
-      <Text>{demoText}</Text>
+      <Button
+        title="Test Redux"
+        onPress={() => demoAction({demoText: 'asdasdasdad'})}
+      />
     </View>
   );
 };
@@ -124,7 +128,6 @@ const styles = StyleSheet.create({
   viewStyle: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#00F',
     height: 180,
   },
   text: {
@@ -134,13 +137,9 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-  const {
-    weather: {demoText},
-  } = state;
+  // const {} = state;
 
-  return {
-    demoText,
-  };
+  return {};
 };
 
 const mapDispatchToProps = dispatch => {
