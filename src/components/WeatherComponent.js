@@ -1,57 +1,116 @@
 import React from 'react';
-import { Text, View, Button, StyleSheet, Image, ImageBackground} from 'react-native';
+import {
+  Text,
+  View,
+  Button,
+  StyleSheet,
+  Image,
+  ImageBackground,
+} from 'react-native';
 
 //const someIcon = 'http://openweathermap.org/img/wn/10d@2x.png';
 
+const WeatherComponent = ({
+  city,
+  temp,
+  minTemp,
+  maxTemp,
+  icon,
+  description,
+  backgroundImage,
+  addToFavorites,
+}) => {
+  return (
+    <View style={styles.container}>
+      <View style={styles.backgroundView}>
+        <ImageBackground style={styles.backgroundImg} source={backgroundImage}>
+          <Text style={styles.cityNameText}> {city} </Text>
+          {icon && <Image style={styles.iconImage} source={{uri: icon}} />}
 
-const WeatherComponent = ( {city, temp, minTemp, maxTemp, icon, description, backgroundImage, addToFavorites} ) => {
-
-  return(
-    <View style = {styles.container}>
-      <View style = {{height: 250}}>
-        <ImageBackground style = {{width: '100%', height: '100%'}} source = {backgroundImage}>
-          <Text style = {{fontSize: 25, alignSelf: 'center', fontWeight: 'bold'}}> {city} </Text>
-          {icon && <Image style={{width: 60, height:60, alignSelf: 'center'}} source = {{uri: icon}}/>}
-
-          <View style={{ justifyContent: 'center', flexDirection: 'row' }}>
-            <Text style = {{fontSize: 25, alignSelf: 'center', fontWeight: 'bold'}}> {temp} </Text>
-            <Image style={{width: 7, height:7}} source = {require('../assets/circle.png')}/>
+          <View style={styles.tempView}>
+            <Text style={styles.tempText}> {temp} </Text>
+            <Image
+              style={styles.image}
+              source={require('../assets/circle.png')}
+            />
           </View>
 
-          <Text style = {{fontSize: 20, alignSelf: 'center', fontWeight: 'bold'}}> {description} </Text>
+          <Text style={styles.descriptionText}> {description} </Text>
 
-          <View style = {styles.minMaxTemp}>
-            
-            <View style={{ flexDirection: 'row' }}>
-              <Text style = {{fontSize: 15, fontWeight: 'bold'}}>Min: {minTemp} </Text>
-              <Image style={{width: 7, height:7}} source = {require('../assets/circle.png')}/>
+          <View style={styles.minMaxTemp}>
+            <View style={styles.minMaxRow}>
+              <Text style={styles.minMaxText}>Min: {minTemp} </Text>
+              <Image
+                style={styles.image}
+                source={require('../assets/circle.png')}
+              />
             </View>
 
-            <View style={{ flexDirection: 'row' }}>
-              <Text style = {{fontSize: 15, fontWeight: 'bold'}}>Max: {maxTemp} </Text>
-              <Image style={{width: 7, height:7}} source = {require('../assets/circle.png')}/>
+            <View style={styles.minMaxRow}>
+              <Text style={styles.minMaxText}>Max: {maxTemp} </Text>
+              <Image
+                style={styles.image}
+                source={require('../assets/circle.png')}
+              />
             </View>
-
           </View>
-          </ImageBackground>
-        </View>
-        <Button
-          title = 'Add to favorites'
-          onPress = {addToFavorites}
-        />
-      
+        </ImageBackground>
+      </View>
+      <Button title="Add to favorites" onPress={addToFavorites} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  minMaxTemp:{
-     flexDirection: 'row',
-     justifyContent: 'space-around'
+  minMaxTemp: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+  tempView: {
+    justifyContent: 'center',
+    flexDirection: 'row',
+  },
+  backgroundView: {
+    height: 250,
+  },
+  backgroundImg: {
+    width: '100%',
+    height: '100%',
   },
   container: {
-    justifyContent: 'space-around'
-  }
+    justifyContent: 'space-around',
+  },
+  minMaxRow: {
+    flexDirection: 'row',
+  },
+  cityNameText: {
+    fontSize: 25,
+    alignSelf: 'center',
+    fontWeight: 'bold',
+  },
+  minMaxText: {
+    fontSize: 15,
+    fontWeight: 'bold',
+  },
+  descriptionText: {
+    fontSize: 20,
+    alignSelf: 'center',
+    fontWeight: 'bold',
+  },
+  tempText: {
+    fontSize: 25,
+    alignSelf: 'center',
+    fontWeight: 'bold',
+  },
+  image: {
+    width: 7,
+    height: 7,
+  },
+  iconImage: {
+    width: 60,
+    height: 60,
+    alignSelf: 'center',
+  },
 });
 
 export default WeatherComponent;
