@@ -30,7 +30,7 @@ const WeatherComponent = ({
           <View style={styles.tempView}>
             <Text style={styles.tempText}> {temp} </Text>
             <Image
-              style={styles.image}
+              style={(styles.image, {opacity: 0.0})}
               source={require('../assets/circle.png')}
             />
           </View>
@@ -72,13 +72,19 @@ const styles = StyleSheet.create({
   },
   backgroundView: {
     height: 250,
+    shadowColor: '#4982fc',
+    shadowOffset: {width: -5, height: 5},
+    shadowOpacity: 0.5,
   },
   backgroundImg: {
     width: '100%',
     height: '100%',
+    overflow: 'hidden',
+    borderRadius: 10,
   },
   container: {
     justifyContent: 'space-around',
+    padding: 10,
   },
   minMaxRow: {
     flexDirection: 'row',

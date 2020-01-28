@@ -9,6 +9,7 @@ import {
   RefreshControl,
 } from 'react-native';
 import {bindActionCreators} from 'redux';
+import LinearGradient from 'react-native-linear-gradient';
 import connect from 'react-redux/es/connect/connect';
 import AsyncStorage from '@react-native-community/async-storage';
 import FavoritesDetail from '../components/FavoritesDetail';
@@ -77,40 +78,42 @@ const FavoritesTab = ({navigation, demoText}) => {
       );
     }
   };
-  // const deleteItemById = id => {
-  //   const filteredData = this.state.data.filter(item => item.id !== id);
-  //   this.setState({ data: filteredData });
-  // }
 
   return (
     <View style={styles.viewStyle}>
-      <View style={styles.headerStyle}>
-        <Text style={styles.text}>Favorites!</Text>
-        <Text style={styles.text}> {timeTitle()} </Text>
-      </View>
+      <LinearGradient
+        style={{height: '100%'}}
+        start={{x: 0.0, y: 0.25}}
+        end={{x: 0.5, y: 1.0}}
+        colors={['#4c669f', '#3b5998', '#192f6a']}>
+        <View style={styles.headerStyle}>
+          <Text style={styles.text}>Favorites!</Text>
+          <Text style={styles.text}> {timeTitle()} </Text>
+        </View>
 
-      <Button
-        color="#000000"
-        title="click me!!!!!!!!!!"
-        onPress={() => {
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh()} />;
-        }}
-      />
+        <Button
+          color="#000000"
+          title="click me!!!!!!!!!!"
+          onPress={() => {
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh()} />;
+          }}
+        />
 
-      <Text>{demoText}</Text>
+        <Text>{demoText}</Text>
 
-      <FlatList
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-        data={cities}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({item}) => {
-          return <FavoritesDetail result={item} />;
-        }}
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-      />
+        <FlatList
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+          data={cities}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({item}) => {
+            return <FavoritesDetail result={item} />;
+          }}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+        />
+      </LinearGradient>
     </View>
   );
 };
@@ -118,7 +121,7 @@ const FavoritesTab = ({navigation, demoText}) => {
 const styles = StyleSheet.create({
   viewStyle: {
     flex: 1,
-    backgroundColor: '#99FFFF',
+    //backgroundColor: '#99FFFF',
   },
   headerStyle: {
     justifyContent: 'center',

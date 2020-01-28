@@ -61,12 +61,13 @@ const WeatherTab = ({demoAction}) => {
   const getWeather = async cityName => {
     try {
       const res = await getWeatherFromServer(cityName);
+      console.log(res);
       const date = moment().format('llll');
       const id = res.list[0].weather[0].id;
       setImage(id);
       setTime(date);
       setCityState(res.city.name);
-      setDescription(res.list[0].weather[0].description);
+      setDescription(res.list[0].dt);
       setTempState(Math.floor(res.list[0].main.temp));
       setMinState(Math.floor(res.list[0].main.temp_min));
       setMaxState(Math.floor(res.list[0].main.temp_max));
@@ -95,31 +96,35 @@ const WeatherTab = ({demoAction}) => {
 
   return (
     <View>
-      <LinearGradient colors={['#4982fc', '#ffffff']} style={styles.viewStyle}>
-        <Text style={styles.text}>Show Weather!</Text>
-        <Text style={styles.text}> {time} </Text>
-        <SearchBar
-          value={value}
-          onValueChange={setValue}
-          onValueSumbit={() => getWeather(value)}
+      <LinearGradient
+        colors={['#4982fc', '#ffffff', '#ffffff', '#4982fc']}
+        style={{height: '100%'}}>
+        <View style={styles.viewStyle}>
+          <Text style={styles.text}>Weather</Text>
+          <Text style={styles.text}> {time} </Text>
+          <SearchBar
+            value={value}
+            onValueChange={setValue}
+            onValueSumbit={() => getWeather(value)}
+          />
+        </View>
+
+        <WeatherComponent
+          city={city}
+          description={description}
+          temp={temp}
+          minTemp={minTemp}
+          maxTemp={maxTemp}
+          icon={icon}
+          backgroundImage={backgroundImage}
+          addToFavorites={addToFavorites}
+        />
+
+        <Button
+          title="Test Redux"
+          onPress={() => demoAction({demoText: 'asdasdasdad'})}
         />
       </LinearGradient>
-
-      <WeatherComponent
-        city={city}
-        description={description}
-        temp={temp}
-        minTemp={minTemp}
-        maxTemp={maxTemp}
-        icon={icon}
-        backgroundImage={backgroundImage}
-        addToFavorites={addToFavorites}
-      />
-
-      <Button
-        title="Test Redux"
-        onPress={() => demoAction({demoText: 'asdasdasdad'})}
-      />
     </View>
   );
 };
@@ -130,9 +135,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: 180,
   },
+  viewBody: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   text: {
-    color: 'yellow',
+    color: 'black',
     fontSize: 25,
+    fontWeight: 'bold',
   },
 });
 

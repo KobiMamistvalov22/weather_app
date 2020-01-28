@@ -4,7 +4,7 @@ import {Text, StyleSheet, View, TouchableOpacity, Image} from 'react-native';
 const FavoritesDetail = ({result, deleteBtn}) => {
   return (
     <View style={styles.itemStyle}>
-      <View style={styles.list}>
+      <View style={styles.nameAndDescription}>
         <Text style={styles.cityText}>{result.name}</Text>
         <Text style={styles.descriptionText}>{result.description}</Text>
       </View>
@@ -20,18 +20,16 @@ const FavoritesDetail = ({result, deleteBtn}) => {
 };
 
 const styles = StyleSheet.create({
-  list: {
+  nameAndDescription: {
     flex: 1,
     justifyContent: 'center',
   },
-  viewStyle: {
-    marginTop: 10,
-    borderTopWidth: 10,
-    backgroundColor: '#99FFFF',
-  },
   itemStyle: {
     flexDirection: 'row',
-    padding: 20,
+    margin: 10,
+    padding: 10,
+    backgroundColor: 'rgba(127, 127, 127, 0.35)',
+    borderRadius: 30,
   },
   cityText: {
     fontSize: 20,
