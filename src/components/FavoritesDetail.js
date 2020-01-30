@@ -13,7 +13,7 @@ const FavoritesDetail = ({result, deleteBtn}) => {
         <Image style={styles.image} source={{uri: result.icon}} />
       </View>
       <TouchableOpacity onPress={deleteBtn} style={styles.deleteBtn}>
-        <Text>delete</Text>
+        <Text style={{color: '#ffffff'}}>delete</Text>
       </TouchableOpacity>
     </View>
   );
@@ -34,14 +34,17 @@ const styles = StyleSheet.create({
   cityText: {
     fontSize: 20,
     fontWeight: 'bold',
+    color: '#ffffff',
   },
   descriptionText: {
     fontSize: 12,
     fontWeight: 'bold',
+    color: '#ffffff',
   },
   tempText: {
     fontSize: 25,
     fontWeight: 'bold',
+    color: '#ffffff',
   },
   image: {
     width: 40,

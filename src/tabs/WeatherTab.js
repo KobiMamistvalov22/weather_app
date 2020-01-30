@@ -53,6 +53,9 @@ const WeatherTab = ({demoAction}) => {
       case id >= 802 && id <= 804:
         setBackgroundImage(require(clouds));
         return;
+      case id != null:
+        setBackgroundImage(require(clouds));
+        return;
       default:
         return;
     }
@@ -63,11 +66,12 @@ const WeatherTab = ({demoAction}) => {
       const res = await getWeatherFromServer(cityName);
       console.log(res);
       const date = moment().format('llll');
-      const id = res.list[0].weather[0].id;
-      setImage(id);
+      const idForBackgroundImage = res.list[0].weather[0].id;
+      setImage(idForBackgroundImage);
       setTime(date);
       setCityState(res.city.name);
-      setDescription(res.list[0].dt);
+      setDescription(res.list[0].weather[0].description);
+      //description[1] = setDescription(res.list[24].weather[0].description);
       setTempState(Math.floor(res.list[0].main.temp));
       setMinState(Math.floor(res.list[0].main.temp_min));
       setMaxState(Math.floor(res.list[0].main.temp_max));

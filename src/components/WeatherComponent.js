@@ -8,8 +8,6 @@ import {
   ImageBackground,
 } from 'react-native';
 
-//const someIcon = 'http://openweathermap.org/img/wn/10d@2x.png';
-
 const WeatherComponent = ({
   city,
   temp,
@@ -29,29 +27,39 @@ const WeatherComponent = ({
 
           <View style={styles.tempView}>
             <Text style={styles.tempText}> {temp} </Text>
-            <Image
-              style={(styles.image, {opacity: 0.0})}
-              source={require('../assets/circle.png')}
-            />
+            {temp ? (
+              <Image
+                style={styles.image}
+                source={require('../assets/circle.png')}
+              />
+            ) : null}
           </View>
 
           <Text style={styles.descriptionText}> {description} </Text>
 
           <View style={styles.minMaxTemp}>
             <View style={styles.minMaxRow}>
-              <Text style={styles.minMaxText}>Min: {minTemp} </Text>
-              <Image
-                style={styles.image}
-                source={require('../assets/circle.png')}
-              />
+              {minTemp ? (
+                <Text style={styles.minMaxText}>Min: {minTemp} </Text>
+              ) : null}
+              {minTemp ? (
+                <Image
+                  style={styles.image}
+                  source={require('../assets/circle.png')}
+                />
+              ) : null}
             </View>
 
             <View style={styles.minMaxRow}>
-              <Text style={styles.minMaxText}>Max: {maxTemp} </Text>
-              <Image
-                style={styles.image}
-                source={require('../assets/circle.png')}
-              />
+              {maxTemp ? (
+                <Text style={styles.minMaxText}> {`Max: ${maxTemp}`} </Text>
+              ) : null}
+              {maxTemp ? (
+                <Image
+                  style={styles.image}
+                  source={require('../assets/circle.png')}
+                />
+              ) : null}
             </View>
           </View>
         </ImageBackground>
