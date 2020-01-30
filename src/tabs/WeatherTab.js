@@ -29,6 +29,7 @@ const WeatherTab = ({demoAction}) => {
   const [value, setValue] = useState('');
   const [time, setTime] = useState('');
   const [description, setDescription] = useState('');
+  const [cityWeather, setcityWeather] = useState([]);
 
   const setImage = id => {
     switch (true) {
@@ -53,9 +54,6 @@ const WeatherTab = ({demoAction}) => {
       case id >= 802 && id <= 804:
         setBackgroundImage(require(clouds));
         return;
-      case id != null:
-        setBackgroundImage(require(clouds));
-        return;
       default:
         return;
     }
@@ -69,17 +67,44 @@ const WeatherTab = ({demoAction}) => {
       const idForBackgroundImage = res.list[0].weather[0].id;
       setImage(idForBackgroundImage);
       setTime(date);
-      setCityState(res.city.name);
-      setDescription(res.list[0].weather[0].description);
-      //description[1] = setDescription(res.list[24].weather[0].description);
-      setTempState(Math.floor(res.list[0].main.temp));
-      setMinState(Math.floor(res.list[0].main.temp_min));
-      setMaxState(Math.floor(res.list[0].main.temp_max));
-      const iconUrl = `http://openweathermap.org/img/wn/${
-        res.list[0].weather[0].icon
-      }@2x.png`;
-      setIcon(iconUrl);
+      const data = {
+        name: res.city.name,
+        tempHead: Math.floor(res.list[0].main.temp),
+        temp1: Math.floor(res.list[1].main.temp),
+        temp2: Math.floor(res.list[2].main.temp),
+        temp3: Math.floor(res.list[3].main.temp),
+        temp4: Math.floor(res.list[4].main.temp),
+        temp5: Math.floor(res.list[5].main.temp),
+        description: res.list[0].weather[0].description,
+        temp_min: Math.floor(res.list[0].main.temp_min),
+        temp_max: Math.floor(res.list[0].main.temp_max),
+        date_Time1: 3, //res.list[1].dt_txt,
+        date_Time2: 6, //res.list[2].dt_txt,
+        date_Time3: 9, //res.list[3].dt_txt,
+        date_Time4: 12, //res.list[4].dt_txt,
+        date_Time5: 15, //res.list[5].dt_txt,
+        iconUrlHead: `http://openweathermap.org/img/wn/${
+          res.list[0].weather[0].icon
+        }@2x.png`,
+        iconUrl1: `http://openweathermap.org/img/wn/${
+          res.list[1].weather[0].icon
+        }@2x.png`,
+        iconUrl2: `http://openweathermap.org/img/wn/${
+          res.list[2].weather[0].icon
+        }@2x.png`,
+        iconUrl3: `http://openweathermap.org/img/wn/${
+          res.list[3].weather[0].icon
+        }@2x.png`,
+        iconUrl4: `http://openweathermap.org/img/wn/${
+          res.list[4].weather[0].icon
+        }@2x.png`,
+        iconUrl5: `http://openweathermap.org/img/wn/${
+          res.list[5].weather[0].icon
+        }@2x.png`,
+      };
+      setcityWeather(data);
     } catch (e) {
+      setcityWeather([]);
       Alert.alert(
         'Your account is temporary blocked due to exceeding of requests limitation of your subscription type',
       );
@@ -114,12 +139,27 @@ const WeatherTab = ({demoAction}) => {
         </View>
 
         <WeatherComponent
-          city={city}
-          description={description}
-          temp={temp}
-          minTemp={minTemp}
-          maxTemp={maxTemp}
-          icon={icon}
+          city={cityWeather.name}
+          description={cityWeather.description}
+          temp={cityWeather.tempHead}
+          temp1={cityWeather.temp1}
+          temp2={cityWeather.temp2}
+          temp3={cityWeather.temp3}
+          temp4={cityWeather.temp4}
+          temp5={cityWeather.temp5}
+          minTemp={cityWeather.temp_min}
+          maxTemp={cityWeather.temp_max}
+          icon={cityWeather.iconUrlHead}
+          icon1={cityWeather.iconUrl1}
+          icon2={cityWeather.iconUrl2}
+          icon3={cityWeather.iconUrl3}
+          icon4={cityWeather.iconUrl4}
+          icon5={cityWeather.iconUrl5}
+          date_Time1={cityWeather.date_Time1}
+          date_Time2={cityWeather.date_Time2}
+          date_Time3={cityWeather.date_Time3}
+          date_Time4={cityWeather.date_Time4}
+          date_Time5={cityWeather.date_Time5}
           backgroundImage={backgroundImage}
           addToFavorites={addToFavorites}
         />
