@@ -21,14 +21,10 @@ const mist = '../assets/mist.jpeg';
 
 const WeatherTab = ({demoAction}) => {
   const [city, setCityState] = useState('');
-  const [temp, setTempState] = useState('');
-  const [minTemp, setMinState] = useState('');
-  const [maxTemp, setMaxState] = useState('');
-  const [icon, setIcon] = useState(null);
+  const [favoriteCities] = useState([]);
   const [backgroundImage, setBackgroundImage] = useState(null);
   const [value, setValue] = useState('');
   const [time, setTime] = useState('');
-  const [description, setDescription] = useState('');
   const [cityWeather, setcityWeather] = useState([]);
 
   const setImage = id => {
@@ -67,6 +63,7 @@ const WeatherTab = ({demoAction}) => {
       const idForBackgroundImage = res.list[0].weather[0].id;
       setImage(idForBackgroundImage);
       setTime(date);
+      // setCityState(res.city.name);
       const data = {
         name: res.city.name,
         tempHead: Math.floor(res.list[0].main.temp),
@@ -115,12 +112,26 @@ const WeatherTab = ({demoAction}) => {
     const cityNamesFromStorage = JSON.parse(
       await AsyncStorage.getItem('favoriteCities'),
     );
-    cityNamesFromStorage.unshift(city);
-    console.log('favoriteCities push', cityNamesFromStorage);
-    await AsyncStorage.setItem(
-      'favoriteCities',
-      JSON.stringify(cityNamesFromStorage),
-    );
+    if (cityWeather.name == null) {
+      Alert.alert('You not add any city');
+      return;
+    } else {
+      if (cityNamesFromStorage == null) {
+        favoriteCities.unshift(cityWeather.name);
+        console.log('favoriteCities push', favoriteCities);
+        await AsyncStorage.setItem(
+          'favoriteCities',
+          JSON.stringify(favoriteCities),
+        );
+      } else {
+        cityNamesFromStorage.unshift(cityWeather.name);
+        console.log('favoriteCities push', cityNamesFromStorage);
+        await AsyncStorage.setItem(
+          'favoriteCities',
+          JSON.stringify(cityNamesFromStorage),
+        );
+      }
+    }
   };
 
   return (

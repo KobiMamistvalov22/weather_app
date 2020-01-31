@@ -42,6 +42,9 @@ const FavoritesTab = ({navigation, demoText}) => {
       const cityNamesFromStorage = JSON.parse(
         await AsyncStorage.getItem('favoriteCities'),
       );
+      if (cityNamesFromStorage == null) {
+        return;
+      }
       const citiesFromStorage = await Promise.all(
         cityNamesFromStorage.map(async cityName => {
           return await getWeather(cityName);
